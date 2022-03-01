@@ -4,7 +4,7 @@ from geometry_msgs.msg import Twist
 class Twist:
     def __init__(self):
 	self.move();
-	self.publisher = rospy.Publisher('/cmd_vel', Twist, queue_size = 10)
+	self.publisher = rospy.Publisher('vel_input', Twist, queue_size = 10)
 
     def move(self):
 	vel_msg = Twist()

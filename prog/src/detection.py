@@ -1,13 +1,16 @@
 import rospy
 from sensor_msgs.msg import LaserScan
-from prog.srv import force, forseResponse
+from prog.srv import force, forceResponse
+import math
+
 class Detection:
     def __init__(self):
+    self.sub = rospy.Subscriber('/base_scan', LaserScan, self.callback)
     self.service = rospy.Service('force_service', force, self.force_service)
     self.force = forceResponse(0,0)
 
     def force_service(self, request):
-	return self.force = forceResponse(0,0)
+	return self.force
 
     def callback(self, msg):
 	for i, val in enumerate(msg.ranges, start=0):
@@ -31,9 +34,17 @@ class Detection:
 	total_intensity = math.sqrt(x_total ** 2 + y_total ** 2)
 	total_angle = math.atan2(y_total, x_total)
 	self.force = forceResponse(total_intensity, total_angle)
+	
+def main():
+    rospy.init_node('detection', anonymous=True)
+    det = detection()
+    try:
+	rospy.spin()
 
+if __name__ == 'main':
+    main()
 
-
+	
 
 
 
