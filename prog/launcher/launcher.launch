@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="prog" type="detection.py" name="detection" output="screen"/>
+    <node pkg="prog" type="Twist.py" name="Twist" output="screen"/>
+    <node pkg="prog" type="controller.py" name="controller" output="screen"/>
+</launch>
