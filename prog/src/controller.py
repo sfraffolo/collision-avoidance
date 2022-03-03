@@ -2,7 +2,7 @@
 
 import rospy
 from geometry_msgs.msg import Twist
-from prog.srv import Force, ForceResponse
+from prog.srv import force, forceResponse
 import math
 from random import random
 
@@ -13,7 +13,7 @@ class controller:
 	
     def callback(self, msg):
 	if msg.linear.x==0:
-	    self.pub.publisher(msg)
+	    self.pub.publish(msg)
 	    return
 	rospy.wait_for_service('force_service')
 	try:
@@ -38,3 +38,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

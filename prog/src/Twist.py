@@ -5,10 +5,10 @@ from random import random
 from geometry_msgs.msg import Twist
 from time import sleep
 
-class Twist:
+class creaTwist:
     def __init__(self):
-	self.move();
-	self.pub = rospy.Publisher('/vel_input', Twist, queue_size = 10)
+        self.pub = rospy.Publisher('/vel_input', Twist, queue_size=10)
+        self.move()
 
     def move(self):
 	vel_msg = Twist()
@@ -18,13 +18,13 @@ class Twist:
 	vel_msg.angular.x=0;
 	vel_msg.angular.y=0;
 	vel_msg.angular.z=0;
-	while not rospy.is_shoutdown():
+	while not rospy.is_shutdown():
 	    vel_msg.linear.x=random()*100
 	    self.pub.publish(vel_msg)
 
 def main():
     rospy.init_node('Twist', anonymous=True)
-    twist = Twist()
+    twist = creaTwist()
     try:
         rospy.spin()
     except KeyboardInterrupt:
