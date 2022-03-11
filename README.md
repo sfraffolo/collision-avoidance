@@ -1,5 +1,5 @@
 1_ Lanciare in un terminale il comando 
-    roscore
+     roscore
 
 
 2_ lanciare in un altro terminale il comando
