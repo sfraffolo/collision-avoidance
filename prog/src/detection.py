@@ -15,16 +15,21 @@ class detection:
 	
     def callback(self, msg):
         self.force = ForceResponse(0, 0)
+	i_min=0
+	min_val=msg.ranges[0]
         for i, val in enumerate(msg.ranges, start=0):
-            if val >= 1: 
-                continue
-            intensity = 1/val
-            col_angle = msg.angle_min + (i * msg.angle_increment)
-            x = intensity * math.cos(col_angle)
-            y = intensity * math.sin(col_angle)
-            angle = math.atan2(-y, -x)
-            force = ForceResponse(intensity, angle)
-            self.set_force(force)
+	    if val >= 0.6:
+	        continue
+	    if val < min_val:
+	    	min_val = val
+		i_min = i
+	intensity = 1/min_val
+	col_angle = msg.angle_min + (i_min * msg.angle_increment)
+	x = intensity * math.cos(col_angle)
+	y = intensity * math.sin(col_angle)
+	angle = math.atan2(-y, -x)
+	force = ForceResponse(intensity, angle)
+	self.set_force(force)
         
     def set_force(self, force):
         x_r = self.force.intensity * math.cos(self.force.angle)
@@ -35,7 +40,8 @@ class detection:
         y_tot = y_r + y_o
         tot_intensity = math.sqrt(x_tot ** 2 +  y_tot ** 2)
         tot_angle = math.atan2(y_tot, x_tot)
-        self.force = ForceResponse(tot_intensity, tot_angle)    
+        self.force = ForceResponse(tot_intensity, tot_angle)
+ 
 
     def force_service(self, request):
         return self.force
